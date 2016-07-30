@@ -1,0 +1,2950 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Sliding Registration Panel Demo</title>
+  <meta name="author" content="Jake Rocheleau">
+  <link rel="shortcut icon" href="http://www.templatemonster.com/favicon.ico">
+  <link rel="icon" href="http://www.templatemonster.com/favicon.ico">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+  <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <!--<link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">-->
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=ABeeZee:400,400italic">
+  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>-->
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script type="text/javascript" src="/static/js/formslider.js"></script>
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<!--[if lt IE 9]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+  <script>
+  $(function() {
+
+  var availableTags=["Letterheads",
+    "Envelopes",
+    "Notepads",
+    "Folders",
+    "Paper Files",
+    "Visiting Card",
+    "Flyers",
+    "Posters",
+    "Brochures",
+    "Booklets",
+    "Banners",
+    "Gift Bags",
+    "Gift Boxes",
+    "Name Calendar",
+    "Desk Calendar",
+    "Tent Card Calendar",
+    "Hanging Calendar",
+    "Wire-o-Diary",
+    "Rubberband style Diary",
+    "HardCover Perfect bound diary",
+    "Certificates",
+    "Printed Pens",
+    "Printed Mugs",
+    "Photo Frame",
+    "Photo Print",
+    "Posters",
+    "Canvas Frames",
+    "Invitation & Greeting Cards",
+    "Stickers",
+    "Magzines",
+    "Books",
+    "Notebooks",
+    'Gift Vouchers',
+    "Other"];
+
+    $( "#tags" ).autocomplete({
+      source: availableTags
+    });
+  });
+  </script>
+
+
+<style>
+    label > input{ /* HIDE RADIO */
+  display:none;
+}
+    label > input + img{ /* IMAGE STYLES */
+  cursor:pointer;
+  border:2px solid transparent;
+}
+    label > input:checked + img{ /* (CHECKED) IMAGE STYLES */
+  border:2px solid #f00;
+}
+    label{
+    margin-right:10px;
+    height:124px;
+    width:128px;
+    }
+    small {
+        padding-left:17%;
+        padding-right:17%;
+        font-weight:700;
+    }
+    body{margin:40px;}
+      .btn-circle {
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        padding: 6px 0;
+        font-size: 12px;
+        line-height: 1.428571429;
+        border-radius: 15px;
+      }
+      .btn-circle.btn-lg {
+        width: 65px;
+        height: 65px;
+        padding: 18px 11px;
+        font-size: 18px;
+        line-height: 1.33;
+        border-radius: 32px;
+        color:white;
+        background:hotpink;
+        margin-bottom:5px;
+      }
+      .btn-circle.active, .btn-circle:hover{
+        color:black;
+    }
+    .manage-height{
+        height:30px;
+        width:inherit;
+        font-size:medium;
+        line-height:25px;
+        margin-left:0px !important;
+    }
+</style>
+</head>
+
+<body>
+  <div id="w">
+    <h1>jQuery Sliding Login/Registration Form</h1>
+    
+    <div id="page">
+      <div id="content-login">
+        <h2>Login to the Site</h2>
+        <div class="content">
+          <!--<a href="#" class="slidelink" id="showregister">Don't Have An Account? &rarr;</a>-->
+          <form id="login" name="login" action="#" method="post">
+
+            <label for="email">Tell Me What are you Looking For</label>
+            <input name="input-request" id="tags" class="txtfield" tabindex="1" autocomplete="on">
+            
+
+
+            <input type="button" name="Next" id="showregister" value="Next" class="btn slidelink" tabindex="3">
+          </form>
+        </div>
+      </div><!-- /end #content-login -->
+      
+    <div id="content-visiting-card">
+        <h2>Tells us more about your requirement</h2>
+        <div class="content">
+            <form id="visiting-card" name="visiting-card" method="post" action="/request/">
+                {% csrf_token %}
+                <input type="text" name="request_type" value="visiting-card" style="display:None;" />
+                <h4>Select paper</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Standard Card</small><br>
+                    <input type="radio" name="paper" value="Standard Card" checked="checked" />
+                    <img src="/static/images/paper/Standard.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">ExtraStiff Card</small><br>
+                    <input type="radio" name="paper" value="ExtraStiff Card" />
+                    <img src="/static/images/paper/ExtraStiff.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">White Textured</small><br>
+                    <input type="radio" name="paper" value="White Textured" />
+                    <img src="/static/images/paper/WhiteTex.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Cream Textured</small><br>
+                    <input type="radio" name="paper" value="Cream Textured" />
+                    <img src="/static/images/paper/Cream.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Non Tearable</small><br>
+                    <input type="radio" name="paper" value="Non Tearable" />
+                    <img src="/static/images/paper/kentex74.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Recycled Card</small><br>
+                    <input type="radio" name="paper" value="Recycled Card" />
+                    <img src="/static/images/paper/Recycled.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Mettalic Card</small><br>
+                    <input type="radio" name="paper" value="Mettalic Card" />
+                    <img src="/static/images/paper/Metallic.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Side</h4>
+                <br>
+                <label class="radio-inline manage-height">
+                    <input type="radio" name="side" style="display:block;" value="Single Side" checked="checked"/>Single Side
+                </label>
+                <label class="radio-inline manage-height">
+                    <input type="radio" name="side" style="display:block;" value="Double Side"/>Double Side
+                </label>
+
+                <br>
+                <br>
+                <h4>Card Size</h4>
+                <br>
+
+                <label class="radio-inline manage-height">
+                    <input type="radio" name="size" style="display:block;" value="Standard" checked="checked"/>Standard
+                </label>
+                <label class="radio-inline manage-height">
+                    <input type="radio" name="size" style="display:block;" value="Slim (1.5x3.5)" />Slim (1.5x3.5)
+                </label>
+                <br>
+                <br>
+                <h4>Card Type</h4>
+                <br>
+                <label class="radio-inline manage-height"><input type="radio" name="card_type" checked="checked" value="Normal" style="display:block">Normal Card</label>
+                <label class="radio-inline manage-height"><input type="radio" name="card_type" value="Folded Card" style="display:block">Folded Card</label>
+                <label class="radio-inline manage-height"><input type="radio" name="card_type" value="Plastic Card" style="display:block">Premium Plastic Card</label>
+                <label class="radio-inline manage-height"><input type="radio" name="card_type" value="Frosted Card" style="display:block">Frosted Card</label>
+                <br>
+                <br>
+                <h4>Quantity</h4>
+                <br>
+                <div data-toggle="buttons">
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="quantity" value="100" checked="checked">
+                      <i class="glyphicon">
+                          <b>100</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="quantity" value="200">
+                      <i class="glyphicon">
+                          <b>200</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="quantity" value="300">
+                      <i class="glyphicon">
+                          <b>300</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="quantity" value="400">
+                      <i class="glyphicon">
+                          <b>400</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="500">
+                      <i class="glyphicon">
+                          <b>500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="1000">
+                      <i class="glyphicon">
+                          <b>1000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="quantity" value="2000">
+                      <i class="glyphicon">
+                          <b>2000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="quantity" value="5000">
+                      <i class="glyphicon">
+                          <b>5000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="quantity" value="7500">
+                      <i class="glyphicon">
+                          <b>7500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="quantity" value="10000">
+                      <i class="glyphicon">
+                          <b>10000</b>
+                      </i>
+                  </label>
+                </div>
+                <br>
+                <br>
+                <h4>Lamination</h4>
+                <br>
+                <label class="radio-inline manage-height"><input type="radio" value="None" name="lamination" checked="checked" style="display:block">None</label>
+                <label class="radio-inline manage-height"><input type="radio" value="Matt" name="lamination" style="display:block">Matt</label>
+                <label class="radio-inline manage-height"><input type="radio" value="Gloss" name="lamination" style="display:block">Gloss</label>
+                <br>
+                <br>
+                <h4>Corner</h4>
+                <br>
+                <label>
+                    <small style="font-size: 52%; padding-left:31%; padding-right:31%;">Straight</small><br>
+                    <input type="radio" name="corner" value="Straight" checked="checked" />
+                    <img src="/static/images/corner/Straight.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 52%; padding-left:31%; padding-right:31%;">Round</small><br>
+                    <input type="radio" name="corner" value="Round" />
+                    <img src="/static/images/corner/Round.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>When you need this</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Normal</small><br>
+                    <input type="radio" name="time" value="72 Hours" checked="checked" />
+                    <img src="/static/images/time/72_hours.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Quick</small><br>
+                    <input type="radio" name="time" value="24 Hours" />
+                    <img src="/static/images/time/24_hours.png" style="width:100%;">
+                </label>
+                <br>
+                <!--<input type="submit" value="Submit" id="visiting-card-submit" />-->
+                <input type="submit" value="Submit">
+                <!--<button type="button" class="btn btn-primary" id="visiting-card-submit">Submit</button>-->
+            </form>
+        </div>
+    </div>
+
+    <!--<div id="content-letter-heads">
+        <h2>Tells us more about your requirement</h2>
+        <div class="content">
+            <form id="letter-heads" name="letter-heads" action="#" method="post">
+                <h4>Select paper</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Premium White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Paper_Premium.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Bond</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Bond.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Textured</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Textured.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Recycled</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Recycled98.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Size</h4>
+                <label>
+                    <small style="font-size: 38%;">A4:Full Color</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/A4_fullcolour.png" style="width:50%;">
+                </label>
+                <br>
+                <br>
+                <h4>Binding</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Loose Sheets</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/binding/Loose-sheets.jpg" style="width:100%;">
+                </label>
+                 <label>
+                    <small style="font-size: 38%;">Pad Binding</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/binding/Pad-Binding.jpg" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Quantity</h4>
+                <br>
+                <div data-toggle="buttons">
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>100</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>200</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>300</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>400</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>1000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>2000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>5000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>7500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>10000</b>
+                      </i>
+                  </label>
+                </div>
+                <br>
+                <br>
+                <h4>When you need this</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Normal</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/72_hours.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Quick</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/24_hours.png" style="width:100%;">
+                </label>
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="content-notepads">
+        <h2>Tells us more about your requirement</h2>
+        <div class="content">
+            <form id="notepads" name="notepads" action="#" method="post">
+                <h4>Select paper</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Premium White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Paper_Premium.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Bond</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Bond.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Textured</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Textured.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Recycled</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Recycled98.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Size</h4>
+                <label>
+                    <small style="font-size: 38%;">A4</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/a4_bw.png" style="width:60%;">
+                </label>
+                <br>
+                <br>
+                <h4>Front Printing</h4>
+                <label>
+                    <small style="font-size: 38%;">Black & White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/black_white.png" style="width:70%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Full Color</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/full_color.png" style="width:70%;">
+                </label>
+                <br>
+                <br>
+                <br>
+                <h4>Back Printing</h4>
+                <label>
+                    <small style="font-size: 38%;">No Printing</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/no_printing.png" style="width:70%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Black & White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/black_white.png" style="width:70%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Full Color</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/full_color.png" style="width:70%;">
+                </label>
+                <br>
+                <br>
+
+                <h4>Quantity</h4>
+                <br>
+                <div data-toggle="buttons">
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>100</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>200</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>300</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>400</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>1000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>2000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>5000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>7500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>10000</b>
+                      </i>
+                  </label>
+                </div>
+                <br>
+                <br>
+                <h4>When you need this</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Normal</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/72_hours.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Quick</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/24_hours.png" style="width:100%;">
+                </label>
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="content-folders">
+        <h2>Tells us more about your requirement</h2>
+        <div class="content">
+            <form id="folders" name="folders" action="#" method="post">
+                <h4>Select paper</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Premium White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Paper_Premium.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Bond</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Bond.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Textured</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Textured.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Recycled</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Recycled98.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Size</h4>
+                <label>
+                    <small style="font-size: 38%;">A4</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/a4_bw.png" style="width:60%;">
+                </label>
+                <br>
+                <br>
+                <h4>Color</h4>
+                <label>
+                    <small style="font-size: 38%;">Black & White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/black_white.png" style="width:70%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Full Color</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/full_color.png" style="width:70%;">
+                </label>
+                <br>
+                <br>
+                <br>
+                <h4>Printing</h4>
+                <label>
+                    <small style="font-size: 38%;">No Printing</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/no_printing.png" style="width:70%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Black & White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/black_white.png" style="width:70%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Full Color</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/full_color.png" style="width:70%;">
+                </label>
+                <br>
+                <br>
+
+                <h4>Quantity</h4>
+                <br>
+                <div data-toggle="buttons">
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>100</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>200</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>300</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>400</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>1000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>2000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>5000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>7500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>10000</b>
+                      </i>
+                  </label>
+                </div>
+                <br>
+                <br>
+                <h4>When you need this</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Normal</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/72_hours.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Quick</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/24_hours.png" style="width:100%;">
+                </label>
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="content-paper-files">
+        <h2>Tells us more about your requirement</h2>
+        <div class="content">
+            <form id="paper-files" name="paper-files" action="#" method="post">
+                <h4>Select paper</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Premium White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Paper_Premium.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Bond</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Bond.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Textured</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Textured.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Recycled</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Recycled98.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Size</h4>
+                <label>
+                    <small style="font-size: 38%;">A4</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/a4_bw.png" style="width:60%;">
+                </label>
+                <br>
+                <br>
+                <h4>Color</h4>
+                <label>
+                    <small style="font-size: 38%;">Black & White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/black_white.png" style="width:70%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Full Color</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/full_color.png" style="width:70%;">
+                </label>
+                <br>
+                <br>
+                <br>
+                <h4>Printing</h4>
+                <label>
+                    <small style="font-size: 38%;padding-left:22%;">Outside Printing</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/paper_files_outside_print.png" style="width:100%; height:50%">
+                </label>
+                <label>
+                    <small style="font-size: 38%; padding-left:10%;">Outside & Inside Printing </small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/paper_files_outside_inside.png" style="width:100%; height:50%">
+                </label>
+                <br>
+                <br>
+
+                <h4>Quantity</h4>
+                <br>
+                <div data-toggle="buttons">
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>100</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>200</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>300</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>400</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>1000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>2000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>5000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>7500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>10000</b>
+                      </i>
+                  </label>
+                </div>
+                <br>
+                <br>
+                <h4>When you need this</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Normal</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/72_hours.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Quick</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/24_hours.png" style="width:100%;">
+                </label>
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>-->
+
+    <!--<div id="content-notepads">
+        <h2>Tells us more about your requirement</h2>
+        <div class="content">
+            <form id="notepads" name="notepads" action="#" method="post">
+                <h4>Select paper</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Premium White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Paper_Premium.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Bond</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Bond.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Textured</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Textured.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Recycled</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Recycled98.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Size</h4>
+                <label>
+                    <small style="font-size: 38%;">Big A4</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/A4_big.png" style="width:60%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Small A5</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/A5.png" style="width:60%;">
+                </label>
+                <br>
+                <br>
+                <h4>Color</h4>
+                <label>
+                    <small style="font-size: 38%;">Black & White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/black_white.png" style="width:70%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Full Color</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/full_color.png" style="width:70%;">
+                </label>
+                <br>
+                <br>
+
+
+                <h4>Quantity</h4>
+                <br>
+                <div data-toggle="buttons">
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>100</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>200</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>300</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>400</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>1000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>2000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>5000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>7500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>10000</b>
+                      </i>
+                  </label>
+                </div>
+                <br>
+                <br>
+                <h4>When you need this</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Normal</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/72_hours.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Quick</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/24_hours.png" style="width:100%;">
+                </label>
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>-->
+
+    <!--<div id="content-flyers">
+        <h2>Tells us more about your requirement</h2>
+        <div class="content">
+            <form id="flyers" name="flyers" action="#" method="post">
+                <h4>Select paper</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Premium White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Paper_Premium.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Bond</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Bond.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Textured</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Textured.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Recycled</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Recycled98.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Size</h4>
+                <label>
+                    <small style="font-size: 38%;">DL 1Side</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/flyer/dl_1.png" style="width:60%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">DL 2Side</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/flyer/dl_2.png" style="width:60%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">A6 1Side</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/flyer/a6_1.png" style="width:60%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">A6 2Side</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/flyer/a6_2.png" style="width:60%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">A5 1Side</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/flyer/a5_1.png" style="width:60%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">A5 2Side</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/flyer/a5_2.png" style="width:60%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">A4 1Side</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/flyer/a4_1.png" style="width:60%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">A4 2Side</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/flyer/a4_2.png" style="width:60%;">
+                </label>
+                <br>
+                <br>
+                <h4>Color</h4>
+                <label>
+                    <small style="font-size: 38%;">Black & White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/black_white.png" style="width:70%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Full Color</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/full_color.png" style="width:70%;">
+                </label>
+                <br>
+                <br>
+                <h4>Quantity</h4>
+                <br>
+                <div data-toggle="buttons">
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>100</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>200</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>300</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>400</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>1000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>2000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>5000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>7500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>10000</b>
+                      </i>
+                  </label>
+                </div>
+                <br>
+                <br>
+                <h4>When you need this</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Normal</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/72_hours.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Quick</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/24_hours.png" style="width:100%;">
+                </label>
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+
+    <div id="content-posters">
+        <h2>Tells us more about your requirement</h2>
+        <div class="content">
+            <form id="posters" name="posters" action="#" method="post">
+                <h4>Select paper</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Premium White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Paper_Premium.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Bond</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Bond.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Textured</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Textured.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Recycled</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Recycled98.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Size</h4>
+                <label>
+                    <small style="font-size: 38%;">A3</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/a3.png" style="width:60%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">A2</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/a2.png" style="width:60%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">A1</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/a1.png" style="width:60%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">A0</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/a0.png" style="width:60%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">12x26</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/12x26.png" style="width:60%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">12x38</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/12x38.png" style="width:60%;">
+                </label>
+                <br>
+                <br>
+                <h4>Color</h4>
+                <label>
+                    <small style="font-size: 38%;">Black & White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/black_white.png" style="width:70%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Full Color</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/full_color.png" style="width:70%;">
+                </label>
+                <br>
+                <br>
+                <h4>Quantity</h4>
+                <br>
+                <div data-toggle="buttons">
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>100</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>200</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>300</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>400</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>1000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>2000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>5000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>7500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>10000</b>
+                      </i>
+                  </label>
+                </div>
+                <br>
+                <br>
+                <h4>When you need this</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Normal</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/72_hours.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Quick</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/24_hours.png" style="width:100%;">
+                </label>
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="content-brochures">
+        <h2>Tells us more about your requirement</h2>
+        <div class="content">
+            <form id="brochures" name="brochures" action="#" method="post">
+                <h4>Select paper</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Premium White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Paper_Premium.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Bond</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Bond.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Textured</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Textured.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Recycled</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Recycled98.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Size</h4>
+                <label>
+                    <small style="font-size: 50%;">8.26x5.85(A5)</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/brochures/a5.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">11.69x8.26(A4)</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/brochures/a4.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">16.5x5.85</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/brochures/a5_2.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">16.52x11.69</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/brochures/a3.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">23.38x8.25</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/brochures/a4_2.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">24.75x11.69</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/brochures/a4_3.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">33x11.69</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/brochures/a4_4.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Color</h4>
+                <label>
+                    <small style="font-size: 38%;">Black & White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/black_white.png" style="width:70%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Full Color</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/full_color.png" style="width:70%;">
+                </label>
+                <br>
+                <br>
+                <h4>Quantity</h4>
+                <br>
+                <div data-toggle="buttons">
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>100</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>200</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>300</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>400</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>1000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>2000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>5000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>7500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>10000</b>
+                      </i>
+                  </label>
+                </div>
+                <br>
+                <br>
+                <h4>When you need this</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Normal</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/72_hours.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Quick</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/24_hours.png" style="width:100%;">
+                </label>
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+     <div id="content-booklets">
+        <h2>Tells us more about your requirement</h2>
+        <div class="content">
+            <form id="booklets" name="booklets" action="#" method="post">
+                <h4>Select paper</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Premium White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Paper_Premium.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Bond</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Bond.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Textured</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Textured.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Recycled</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Recycled98.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Size</h4>
+                <label>
+                    <small style="font-size: 50%;">A5P 8sides </small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/booklets/a5_p8.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">A5P 12sides</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/booklets/a5_p12.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">A5P 16sides</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/booklets/a5_p16.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">A5L 8sides</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/booklets/a5_l8.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">A5L 12sides</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/booklets/a4_l12.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">A5L 16sides</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/booklets/a5_l16.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">A4P 8sides</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/booklets/a4_p8.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">A4P 12sides</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/booklets/a4_p12.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">A4P 16sides</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/booklets/a4_p16.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">A4L 8sides</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/booklets/a4_l8.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">A4L 12sides</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/booklets/a4_l12.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">A4L 16sides</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/booklets/a4_l16.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Color</h4>
+                <label>
+                    <small style="font-size: 38%;">Black & White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/black_white.png" style="width:70%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Full Color</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/full_color.png" style="width:70%;">
+                </label>
+                <br>
+                <br>
+                <h4>Quantity</h4>
+                <br>
+                <div data-toggle="buttons">
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>100</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>200</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>300</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>400</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>1000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>2000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>5000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>7500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>10000</b>
+                      </i>
+                  </label>
+                </div>
+                <br>
+                <br>
+                <h4>When you need this</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Normal</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/72_hours.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Quick</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/24_hours.png" style="width:100%;">
+                </label>
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="content-banners">
+        <h2>Tells us more about your requirement</h2>
+        <div class="content">
+            <form id="banners" name="banners" action="#" method="post">
+                <h4>Select paper</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Premium White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Paper_Premium.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Bond</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Bond.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Textured</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Textured.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Recycled</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Recycled98.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Size</h4>
+                <label>
+                    <small style="font-size: 50%;">3'x2' </small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/banner/2x3.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">4'x3'</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/banner/4x3.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">6'x3'</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/banner/6x3.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">8'x3'</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/banner/8x3.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">8'x5'</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/banner/8x5.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">10'x8'</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/banner/10x8.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Color</h4>
+                <label>
+                    <small style="font-size: 38%;">Black & White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/black_white.png" style="width:70%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Full Color</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/full_color.png" style="width:70%;">
+                </label>
+                <br>
+                <br>
+                <h4>Quantity</h4>
+                <br>
+                <div data-toggle="buttons">
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>100</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>200</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>300</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>400</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>1000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>2000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>5000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>7500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>10000</b>
+                      </i>
+                  </label>
+                </div>
+                <br>
+                <br>
+                <h4>When you need this</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Normal</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/72_hours.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Quick</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/24_hours.png" style="width:100%;">
+                </label>
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="content-gift-bags">
+        <h2>Tells us more about your requirement</h2>
+        <div class="content">
+            <form id="gift-bags" name="gift-bags" action="#" method="post">
+
+                <h4>Size</h4>
+                <label>
+                    <small style="font-size: 50%;">13"x10"x4" </small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/gift_bags/13x10x4.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">14"x4"x4"</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/gift_bags/14x4x4.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">14"x8"x3"</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/gift_bags/14x8x3.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">14"x9"3"</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/gift_bags/14x9x3.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">9"x2"x6"</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/gift_bags/9x2x6.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">9"x5"x3"</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/gift_bags/9x5x3.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">9"x9"x3"</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/gift_bags/9x9x3.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Color</h4>
+                <label>
+                    <small style="font-size: 38%;">Black & White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/black_white.png" style="width:70%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Full Color</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/full_color.png" style="width:70%;">
+                </label>
+                <br>
+                <br>
+                <h4>Quantity</h4>
+                <br>
+                <div data-toggle="buttons">
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>100</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>200</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>300</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>400</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>1000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>2000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>5000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>7500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>10000</b>
+                      </i>
+                  </label>
+                </div>
+                <br>
+                <br>
+                <h4>When you need this</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Normal</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/72_hours.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Quick</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/24_hours.png" style="width:100%;">
+                </label>
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="content-calendar">
+        <h2>Tells us more about your requirement</h2>
+        <div class="content">
+            <form id="calendar" name="calendar" action="#" method="post">
+
+                <h4>Size and Type</h4>
+                <label>
+                    <small style="font-size: 50%;">6"x9"(Tent)</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/calendar/6x9.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;padding-left:10%;padding-right:10%;">6"x9"(Tent-2sides)</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/calendar/6x6_2side.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;padding-left:10%;padding-right:10%;">11"x17" (Hanging)</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/calendar/11x17.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Color</h4>
+                <label>
+                    <small style="font-size: 38%;">Black & White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/black_white.png" style="width:70%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Full Color</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/full_color.png" style="width:70%;">
+                </label>
+                <br>
+                <br>
+                <h4>Quantity</h4>
+                <br>
+                <div data-toggle="buttons">
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>100</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>200</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>300</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>400</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>1000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>2000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>5000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>7500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>10000</b>
+                      </i>
+                  </label>
+                </div>
+                <br>
+                <br>
+                <h4>When you need this</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Normal</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/72_hours.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Quick</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/24_hours.png" style="width:100%;">
+                </label>
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="content-diary">
+        <h2>Tells us more about your requirement</h2>
+        <div class="content">
+            <form id="diary" name="diary" action="#" method="post">
+
+                <h4>Size and Type</h4>
+                <label>
+                    <small style="font-size: 50%;">A5 Wired</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/diary/a5_wireo.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;padding-left:10%;padding-right:10%;">A5 Rubberband</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/diary/a5_rubberband.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;padding-left:10%;padding-right:10%;">A5 HardCover</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/diary/a5_hardcover.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Color</h4>
+                <label>
+                    <small style="font-size: 38%;">Black & White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/black_white.png" style="width:70%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Full Color</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/full_color.png" style="width:70%;">
+                </label>
+                <br>
+                <br>
+                <h4>Quantity</h4>
+                <br>
+                <div data-toggle="buttons">
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>100</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>200</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>300</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>400</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>1000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>2000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>5000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>7500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>10000</b>
+                      </i>
+                  </label>
+                </div>
+                <br>
+                <br>
+                <h4>When you need this</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Normal</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/72_hours.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Quick</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/24_hours.png" style="width:100%;">
+                </label>
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="content-mugs">
+        <h2>Tells us more about your requirement</h2>
+        <div class="content">
+            <form id="mugs" name="mugs" action="#" method="post">
+
+                <h4>Type</h4>
+                <label>
+                    <small style="font-size: 50%;"></small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/mug.png" style="width:100%;height:58%;">
+                </label>
+                <br>
+                <br>
+                <h4>Color</h4>
+                <br>
+                <label class="radio-inline manage-height"><input type="radio" name="optradio" style="display:block">White</label>
+                <label class="radio-inline manage-height"><input type="radio" name="optradio" style="display:block">Black</label>
+                <br>
+                <br>
+                <h4>Quantity</h4>
+                <br>
+                <div data-toggle="buttons">
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>100</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>200</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>300</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>400</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>1000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>2000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>5000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>7500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>10000</b>
+                      </i>
+                  </label>
+                </div>
+                <br>
+                <br>
+                <h4>When you need this</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Normal</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/72_hours.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Quick</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/24_hours.png" style="width:100%;">
+                </label>
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="content-pen">
+        <h2>Tells us more about your requirement</h2>
+        <div class="content">
+            <form id="pen" name="pen" action="#" method="post">
+
+                <h4>Type</h4>
+                <label>
+                    <small style="font-size: 50%;"></small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/pen/pen01.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Refil Color</h4>
+                <br>
+                <label class="radio-inline manage-height"><input type="radio" name="optradio" style="display:block">Blue</label>
+                <label class="radio-inline manage-height"><input type="radio" name="optradio" style="display:block">Black</label>
+                <br>
+                <br>
+                <h4>Quantity</h4>
+                <br>
+                <div data-toggle="buttons">
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>100</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>200</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>300</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>400</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>1000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>2000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>5000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>7500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>10000</b>
+                      </i>
+                  </label>
+                </div>
+                <br>
+                <br>
+                <h4>When you need this</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Normal</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/72_hours.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Quick</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/24_hours.png" style="width:100%;">
+                </label>
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+
+    <div id="content-certificate">
+        <h2>Tells us more about your requirement</h2>
+        <div class="content">
+            <form id="certificate" name="certificate" action="#" method="post">
+
+                <h4>Size</h4>
+                <label>
+                    <small style="font-size: 50%;">A4</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/certificate/a4.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Select paper</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Standard Card</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Standard.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">ExtraStiff Card</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/ExtraStiff.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">White Textured</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/WhiteTex.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Cream Textured</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Cream.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Non Tearable</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/kentex74.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Recycled Card</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Recycled.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Mettalic Card</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Metallic.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Color</h4>
+                <label>
+                    <small style="font-size: 38%;">White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/black_white.png" style="width:70%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Black</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/color/full_color.png" style="width:70%;">
+                </label>
+                <br>
+                <br>
+                <h4>Quantity</h4>
+                <br>
+                <div data-toggle="buttons">
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>100</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>200</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>300</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>400</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>1000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>2000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>5000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>7500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>10000</b>
+                      </i>
+                  </label>
+                </div>
+                <br>
+                <br>
+                <h4>When you need this</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Normal</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/72_hours.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Quick</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/24_hours.png" style="width:100%;">
+                </label>
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="content-invitation">
+        <h2>Tells us more about your requirement</h2>
+        <div class="content">
+            <form id="invitation" name="invitation" action="#" method="post">
+
+                <h4>Size</h4>
+                <label>
+                    <small style="font-size: 50%;">A4</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/invitation/a4.png" style="width:70%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">A5</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/invitation/a5.png" style="width:70%;">
+                </label>
+                <label>
+                    <small style="font-size: 50%;">A6</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/invitation/a6.png" style="width:70%;">
+                </label>
+                <br>
+                <br>
+                <br>
+                <h4>Select paper</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Standard Card</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Standard.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Mettalic Card</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Metallic.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Invitation Packing</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">White Envelope</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/invitation/white_envelope.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Trasparent Plastic</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/invitation/trasparent_cover.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Printed White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/invitation/envelope_printed.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Printed Mettalic</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/invitation/envelope_color_printed.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Quantity</h4>
+                <br>
+                <div data-toggle="buttons">
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>100</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>200</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>300</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>400</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>1000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>2000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>5000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>7500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>10000</b>
+                      </i>
+                  </label>
+                </div>
+                <br>
+                <br>
+                <h4>When you need this</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Normal</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/72_hours.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Quick</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/24_hours.png" style="width:100%;">
+                </label>
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="content-envelopes">
+        <h2>Tells us more about your requirement</h2>
+        <div class="content">
+            <form id="envelopes" name="envelopes" action="#" method="post">
+                <h4>Select paper</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Premium White</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Paper_Premium.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Bond</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Bond.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Textured</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Textured.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Recycled</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/Recycled98.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Extra Thick</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/paper/extra_thick.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Size</h4>
+                <label>
+                    <small style="font-size: 38%;">A4: Full Color</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/a4_envelopes.png" style="width:70%; height:78%">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">C5: Full Color</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/c5_full_color.png" style="width:70%;height:78%">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">C5: Full Color</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/size/slim_envelope.png" style="width:70%; height:78%">
+                </label>
+                <br>
+                <br>
+                <h4>Flap Position</h4>
+                <label>
+                    <small style="font-size: 38%;">Short Edge</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/flap/Edge_Short.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Long Edge</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/flap/Edge_Long.png" style="width:100%;">
+                </label>
+                <br>
+                <br>
+                <h4>Quantity</h4>
+                <br>
+                <div data-toggle="buttons">
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>100</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>200</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>300</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>400</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>1000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>2000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>5000</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>7500</b>
+                      </i>
+                  </label>
+                  <label class="btn btn-default btn-circle btn-lg">
+                      <input type="radio" name="q1" value="2">
+                      <i class="glyphicon">
+                          <b>10000</b>
+                      </i>
+                  </label>
+                </div>
+                <br>
+                <br>
+                <h4>When you need this</h4>
+                <br>
+                <label>
+                    <small style="font-size: 38%;">Normal</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/72_hours.png" style="width:100%;">
+                </label>
+                <label>
+                    <small style="font-size: 38%;">Quick</small><br>
+                    <input type="radio" name="fb" value="small" />
+                    <img src="/static/images/time/24_hours.png" style="width:100%;">
+                </label>
+                <br>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+
+      <div id="content-register">
+        <h2>Register a New Account</h2>
+        <div class="content">
+        <a href="#" class="leftsidelink" id="showlogin">&larr; Already Have an Account? Login Now!</a>
+        <form id="register" name="register" action="#" method="post">
+          <label for="fname">First Name</label>
+          <input type="text" name="fname" id="fname" class="txtfield" tabindex="4" autocomplete="off">
+          
+          <label for="lname">Last Name</label>
+          <input type="text" name="lname" id="lname" class="txtfield" tabindex="5" autocomplete="off">
+          
+          <label for="newemail">Email Address</label>
+          <input type="email" name="newemail" id="newemail" class="txtfield" tabindex="6" autocomplete="off">
+          
+          <label for="password1">Password</label>
+          <input type="password" name="password1" id="password1" class="txtfield" tabindex="7" autocomplete="off">
+          
+          <label for="password2">Confirm Password</label>
+          <input type="password" name="password2" id="password2" class="txtfield" tabindex="8" autocomplete="off">
+          
+          <input type="submit" name="registerbtn" id="registerbtn" value="Sign Up" class="btn" tabindex="9">
+        </form>
+        </div>
+      </div>--><!-- /end #content-register -->
+      
+    </div><!-- /end #page -->
+  </div><!-- /end #w -->
+</body>
+</html>

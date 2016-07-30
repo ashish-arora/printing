@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<!--<link rel="stylesheet" href="http://bootsnipp.com/dist/bootsnipp.min.css?ver=7d23ff901039aef6293954d33d23c066">-->
+<link rel="stylesheet" type="text/css" href="/static/css/bootstrap-3.6.min.css">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/static/css/login.css">
+<script src="/static/js/jquery-1.11.js"></script>
+<script src="/static/js/bootstrap.js"></script>
+
+<div class="container">
+
+
+    <div class="omb_login">
+    	<h3 class="omb_authTitle">Sign Up or <a href="/login">login</a></h3>
+		<div class="row omb_row-sm-offset-3 omb_socialButtons">
+    	    <div class="col-xs-4 col-sm-2">
+		        <a href="#" class="btn btn-lg btn-block omb_btn-facebook">
+			        <i class="fa fa-facebook visible-xs"></i>
+			        <span class="hidden-xs">Facebook</span>
+		        </a>
+	        </div>
+        	<div class="col-xs-4 col-sm-2">
+		        <a href="#" class="btn btn-lg btn-block omb_btn-twitter">
+			        <i class="fa fa-twitter visible-xs"></i>
+			        <span class="hidden-xs">Twitter</span>
+		        </a>
+	        </div>
+        	<div class="col-xs-4 col-sm-2">
+		        <a href="#" class="btn btn-lg btn-block omb_btn-google">
+			        <i class="fa fa-google-plus visible-xs"></i>
+			        <span class="hidden-xs">Google+</span>
+		        </a>
+	        </div>
+		</div>
+
+		<div class="row omb_row-sm-offset-3 omb_loginOr">
+			<div class="col-xs-12 col-sm-6">
+				<hr class="omb_hrOr">
+				<span class="omb_spanOr">or</span>
+			</div>
+		</div>
+
+		<div class="row omb_row-sm-offset-3">
+			<div class="col-xs-12 col-sm-6">
+			    <form class="omb_loginForm" action="/signup" autocomplete="off" method="POST">
+                    {% csrf_token %}
+                    {% if error %}
+                        <span class="help-block">{{error}}</span>
+                    {% endif %}
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-user"></i></span>
+						<input type="email" class="form-control" name="email" placeholder="Email address">
+					</div>
+					<span class="help-block"></span>
+
+                    <div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-user"></i></span>
+						<input type="text" class="form-control" name="username" placeholder="Name">
+					</div>
+					<span class="help-block"></span>
+
+					<div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+						<input  type="password" class="form-control" name="password" placeholder="Password">
+					</div>
+                    <span class="help-block"></span>
+                    <div class="input-group">
+						<span class="input-group-addon"><i class="fa fa-lock"></i></span>
+						<input  type="password" class="form-control" name="confirm_password" placeholder="Confirm Password">
+					</div>
+                        <h4 style="margin-left:43%;">I want to</h4>
+                        <span class="btn-group" data-toggle="buttons" style="margin-bottom:10px;margin-left:40%;">
+                                <label class="btn btn-default">
+                                    <input type="radio" name="looking_for" id="looking_to_hire" value="Employer" data-role="none" class="required">
+                                    Hire
+                                </label>
+                                <label class="btn btn-default">
+                                    <input type="radio" name="looking_for" id="looking_for_work" value="Worker" data-role="none">
+                                    Work
+                                </label>
+                        </span>
+                        <br>
+					<button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+				</form>
+			</div>
+    	</div>
+		<div class="row omb_row-sm-offset-3">
+			<div class="col-xs-12 col-sm-3">
+				<label class="checkbox">
+					<input type="checkbox" value="remember-me">Remember Me
+				</label>
+			</div>
+			<div class="col-xs-12 col-sm-3">
+				<p class="omb_forgotPwd">
+					<a href="#">Forgot password?</a>
+				</p>
+			</div>
+		</div>
+	</div>
+
+
+
+        </div>
+
+</body>
+</html>
+
